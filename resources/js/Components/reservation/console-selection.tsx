@@ -26,8 +26,8 @@ interface ConsoleSelectionCardProps {
 }
 
 const CONSOLE_PRICES = {
-    PS4: 75,
-    PS5: 120,
+    PS4: 30000,
+    PS5: 40000,
 }
 
 export default function ConsoleSelectionCard({
@@ -96,7 +96,7 @@ export default function ConsoleSelectionCard({
                             <div className="pt-2 border-t border-border">
                                 <div className="flex justify-between items-center">
                                     <span className="text-muted-foreground">Price:</span>
-                                    <span className="font-medium text-lg">${calculatePrice().toFixed(2)}</span>
+                                    <span className="font-medium text-lg">Rp{calculatePrice().toFixed(2)}</span>
                                 </div>
                             </div>
                         </div>
