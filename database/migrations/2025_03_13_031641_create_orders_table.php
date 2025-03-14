@@ -15,7 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('customer_id')->constrained('customers')->onDelete('cascade');
             $table->date('order_date');
-            $table->integer('total_sessions');
+            $table->dateTime('start_time');
+            $table->dateTime('end_time');
+            $table->integer('total_hour');
             $table->integer('subtotal');
             $table->integer('weekend_fee')->default(0);
             $table->integer('total_amount');
