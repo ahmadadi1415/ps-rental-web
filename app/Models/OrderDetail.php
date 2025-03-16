@@ -14,7 +14,6 @@ class OrderDetail extends Model
     protected $fillable = [
         'order_id',
         'product_id',
-        'sessions_ordered',
     ];
 
     // Relationship: OrderDetail belongs to an Order

@@ -22,10 +22,9 @@ class ReservationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'startDate' => 'required|date',
-            'startHour' => 'required|integer|min:0|max:24',
-            'endDate' => 'required|date',
-            'endHour' => 'required|integer|min:0|max:24',
+            'sessionDate' => 'required|date',
+            'sessionStartTime' => 'required|string',
+            'sessionEndTime' => 'required|string',
             'selectedConsole' => 'required|exists:products,console_type', // Ensure console exists
         ];
     }

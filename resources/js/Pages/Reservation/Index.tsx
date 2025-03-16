@@ -1,10 +1,27 @@
-import ReservationsTable from "@/Components/reservation/reservations-table";
+import ReservationsTable, { Reservation } from "@/Components/reservation/reservations-table";
 import { Button } from "@/Components/ui/button";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link } from "@inertiajs/react";
 import { PlusCircle } from "lucide-react";
 
-export default function Index() {
+interface ReservationPageProps {
+    reservationOrders: []
+}
+
+export default function Index(props: ReservationPageProps) {
+
+    function convertToReservation(data: any): Reservation {
+        return {
+            id: data.id.toString(), // Convert ID to string
+            date: new Date(data.order_date), // Convert order_date to Date
+            timeSlot: `${new Date(data.start_time).toLocaleTimeString()} - ${new Date(data.end_time).toLocaleTimeString()}`, // Format time slot
+            console: data.product.console_type, // Get console type from product
+            price: data.total_amount, // Use total_amount as price
+            status: data.status, // Use status directly
+            createdAt: new Date(data.created_at), // Convert created_at to Date
+        };
+    }
+
     return (
         <AuthenticatedLayout
             header={
@@ -29,7 +46,7 @@ export default function Index() {
                                 </Link>
                             </div>
 
-                            <ReservationsTable />
+                            <ReservationsTable reservations={props.reservationOrders.map(convertToReservation)} />
                         </div>
                     </div>
                 </div>

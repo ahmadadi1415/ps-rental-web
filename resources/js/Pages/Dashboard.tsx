@@ -1,4 +1,3 @@
-import BookingInterface from '@/Components/reservation/booking-interface';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 
@@ -18,7 +17,6 @@ export default function Dashboard() {
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                         <div className="p-6 text-gray-900">
                             Dashboard
-                            <BookingInterface />
                         </div>
                     </div>
                 </div>

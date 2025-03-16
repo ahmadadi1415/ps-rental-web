@@ -22,7 +22,6 @@ interface ConsoleSelectionCardProps {
     sessionBlock: SessionBlock | null
     selectedConsole: string | undefined
     setSelectedConsole: (console: string) => void
-    onSubmit: (e: React.FormEvent) => void
 }
 
 const CONSOLE_PRICES = {
@@ -35,7 +34,6 @@ export default function ConsoleSelectionCard({
     sessionBlock,
     selectedConsole,
     setSelectedConsole,
-    onSubmit,
 }: ConsoleSelectionCardProps) {
     // Calculate price based on console only
     const calculatePrice = () => {

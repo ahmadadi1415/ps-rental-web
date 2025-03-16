@@ -22,6 +22,16 @@ class Order extends Model
         'total_amount',
     ];
 
+    protected $casts = [
+        'order_date' => 'date',
+        'start_time' => 'datetime',
+        'end_time' => 'datetime',
+        'subtotal' => 'integer',
+        'weekend_fee' => 'integer',
+        'total_amount' => 'integer',
+        'status' => 'string',
+    ];
+
     // Relationship: Order belongs to a Customer
     public function customer()
     {
@@ -31,7 +41,12 @@ class Order extends Model
     // Relationship: Order has many OrderDetails
     public function orderDetails()
     {
-        return $this->hasMany(OrderDetail::class);
+        return $this->hasOne(OrderDetail::class);
+    }
+
+    public function product()
+    {
+        return $this->hasOneThrough(Product::class, OrderDetail::class, 'order_id', 'id', 'id', 'product_id');
     }
 
     // Relationship: Order has one Payment

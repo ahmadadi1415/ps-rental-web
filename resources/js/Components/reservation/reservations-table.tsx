@@ -39,56 +39,11 @@ export type Reservation = {
     createdAt: Date
 }
 
-// Mock data for reservations
-const mockReservations: Reservation[] = [
-    {
-        id: "RES-001",
-        date: new Date(2025, 2, 15),
-        timeSlot: "09:00-12:00",
-        console: "PlayStation 5",
-        price: 120,
-        status: "confirmed",
-        createdAt: new Date(2025, 2, 10),
-    },
-    {
-        id: "RES-002",
-        date: new Date(2025, 2, 16),
-        timeSlot: "12:00-15:00",
-        console: "PlayStation 4",
-        price: 75,
-        status: "paid",
-        createdAt: new Date(2025, 2, 11),
-    },
-    {
-        id: "RES-003",
-        date: new Date(2025, 2, 17),
-        timeSlot: "15:00-18:00",
-        console: "PlayStation 5",
-        price: 120,
-        status: "pending",
-        createdAt: new Date(2025, 2, 12),
-    },
-    {
-        id: "RES-004",
-        date: new Date(2025, 2, 18),
-        timeSlot: "18:00-21:00",
-        console: "PlayStation 4",
-        price: 75,
-        status: "canceled",
-        createdAt: new Date(2025, 2, 13),
-    },
-    {
-        id: "RES-005",
-        date: new Date(2025, 2, 19),
-        timeSlot: "09:00-12:00",
-        console: "PlayStation 5",
-        price: 120,
-        status: "completed",
-        createdAt: new Date(2025, 2, 14),
-    },
-]
+interface ReservationTableDataProps {
+    reservations: Reservation[]
+}
 
-export default function ReservationsTable() {
+export default function ReservationsTable(props: ReservationTableDataProps) {
     const [sorting, setSorting] = React.useState<SortingState>([])
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
 
@@ -185,7 +140,7 @@ export default function ReservationsTable() {
     ]
 
     const table = useReactTable({
-        data: mockReservations,
+        data: props.reservations,
         columns,
         onSortingChange: setSorting,
         onColumnFiltersChange: setColumnFilters,
