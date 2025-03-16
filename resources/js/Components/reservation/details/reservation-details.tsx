@@ -20,7 +20,7 @@ import {
 // Define reservation status types
 export type ReservationStatus = "pending" | "confirmed" | "cancelled" | "completed"
 
-interface ReservationDetailsProps {
+export interface ReservationDetailsProps {
     id: string
     status: ReservationStatus
     startDate: Date
@@ -29,7 +29,6 @@ interface ReservationDetailsProps {
     endHour: number
     duration: number
     console: string
-    consoleModel: string
     price: number
     onPay: () => void
     onCancel: () => void
@@ -44,7 +43,6 @@ export default function ReservationDetails({
     endHour,
     duration,
     console: consoleType,
-    consoleModel,
     price,
     onPay,
     onCancel,
@@ -125,7 +123,7 @@ export default function ReservationDetails({
                     <div className="space-y-1">
                         <h3 className="text-sm font-medium text-muted-foreground">Console</h3>
                         <p className="text-base font-medium">
-                            {consoleType} {consoleModel}
+                            {consoleType}
                         </p>
                     </div>
                     <div className="space-y-1">
@@ -138,7 +136,7 @@ export default function ReservationDetails({
                     <div className="flex justify-between items-center">
                         <div>
                             <h3 className="text-sm font-medium text-muted-foreground">Total Price</h3>
-                            <p className="text-xl font-bold">${price.toFixed(2)}</p>
+                            <p className="text-xl font-bold">Rp{price.toFixed(2)}</p>
                         </div>
                         {status === "pending" && (
                             <div className="flex items-center text-sm text-amber-600">

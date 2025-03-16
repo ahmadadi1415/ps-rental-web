@@ -4,17 +4,48 @@ import * as React from "react"
 import { addDays } from "date-fns"
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/Components/ui/tabs"
-import ReservationDetails, { type ReservationStatus } from "@/Components/reservation/details/reservation-details"
+import ReservationDetails, { ReservationDetailsProps, type ReservationStatus } from "@/Components/reservation/details/reservation-details"
 import { toast } from "sonner"
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout"
 import { Head } from "@inertiajs/react"
 
 interface ReservationProps {
-    reservation: any
+    reservationOrder: any
 }
 
 export default function Show(props: ReservationProps) {
-    console.log(props.reservation);
+    console.log(props.reservationOrder);
+
+    const [reservationData, setReservationData] = React.useState<ReservationDetailsProps | null>(null);
+
+    React.useEffect(() => {
+        if (props.reservationOrder) {
+            const convertedData = convertToReservationDetails(props.reservationOrder);
+            setReservationData(convertedData);
+        }
+    }, [props.reservationOrder]);
+
+    function convertToReservationDetails(data: any): ReservationDetailsProps {
+        console.log(data);
+
+        const startDate = new Date(data.start_time);
+        const endDate = new Date(data.end_time);
+        const duration = (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60); // Duration in hours
+
+        return {
+            id: data.id.toString(), // Convert ID to string
+            status: data.status as ReservationStatus, // Cast status to ReservationStatus
+            startDate: startDate,
+            startHour: startDate.getHours(), // Extract hour from start_time
+            endDate: endDate,
+            endHour: endDate.getHours(), // Extract hour from end_time
+            duration: duration, // Calculate duration in hours
+            console: data.product.console_type, // Get console type from product
+            price: data.total_amount, // Use total_amount as price
+            onPay: handlePay,
+            onCancel: handleCancel
+        };
+    }
 
     const [status, setStatus] = React.useState<ReservationStatus>("pending")
 
@@ -34,6 +65,8 @@ export default function Show(props: ReservationProps) {
 
     const today = new Date()
 
+    if (!reservationData) return;
+
     return (
         <AuthenticatedLayout
             header={
@@ -48,88 +81,25 @@ export default function Show(props: ReservationProps) {
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                         <div className="p-6 text-gray-900">
                             <div className="max-w-3xl mx-auto">
-                                <Tabs defaultValue="pending" className="mb-6">
-                                    <TabsList className="grid grid-cols-4">
-                                        <TabsTrigger value="pending">Pending</TabsTrigger>
-                                        <TabsTrigger value="confirmed">Confirmed</TabsTrigger>
-                                        <TabsTrigger value="cancelled">Cancelled</TabsTrigger>
-                                        <TabsTrigger value="completed">Completed</TabsTrigger>
-                                    </TabsList>
 
-                                    <TabsContent value="pending">
-                                        <ReservationDetails
-                                            id="PS-12345"
-                                            status="pending"
-                                            startDate={today}
-                                            startHour={14}
-                                            endDate={today}
-                                            endHour={18}
-                                            duration={4}
-                                            console="PlayStation 5"
-                                            consoleModel="Disc Edition"
-                                            price={200}
-                                            onPay={handlePay}
-                                            onCancel={handleCancel}
-                                        />
-                                    </TabsContent>
-
-                                    <TabsContent value="confirmed">
-                                        <ReservationDetails
-                                            id="PS-12346"
-                                            status="confirmed"
-                                            startDate={addDays(today, 1)}
-                                            startHour={10}
-                                            endDate={addDays(today, 1)}
-                                            endHour={14}
-                                            duration={4}
-                                            console="PlayStation 5"
-                                            consoleModel="Digital Edition"
-                                            price={180}
-                                            onPay={handlePay}
-                                            onCancel={handleCancel}
-                                        />
-                                    </TabsContent>
-
-                                    <TabsContent value="cancelled">
-                                        <ReservationDetails
-                                            id="PS-12347"
-                                            status="cancelled"
-                                            startDate={addDays(today, -2)}
-                                            startHour={16}
-                                            endDate={addDays(today, -2)}
-                                            endHour={20}
-                                            duration={4}
-                                            console="PlayStation 4"
-                                            consoleModel="Pro"
-                                            price={140}
-                                            onPay={handlePay}
-                                            onCancel={handleCancel}
-                                        />
-                                    </TabsContent>
-
-                                    <TabsContent value="completed">
-                                        <ReservationDetails
-                                            id="PS-12348"
-                                            status="completed"
-                                            startDate={addDays(today, -5)}
-                                            startHour={12}
-                                            endDate={addDays(today, -5)}
-                                            endHour={16}
-                                            duration={4}
-                                            console="PlayStation 4"
-                                            consoleModel="Standard"
-                                            price={100}
-                                            onPay={handlePay}
-                                            onCancel={handleCancel}
-                                        />
-                                    </TabsContent>
-                                </Tabs>
+                                <ReservationDetails
+                                    id={reservationData.id}
+                                    status={reservationData.status}
+                                    startDate={reservationData.startDate}
+                                    startHour={reservationData.startHour}
+                                    endDate={reservationData.endDate}
+                                    endHour={reservationData.endHour}
+                                    duration={reservationData.duration}
+                                    console={reservationData.console}
+                                    price={reservationData.price}
+                                    onPay={handlePay}
+                                    onCancel={handleCancel}
+                                />
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </AuthenticatedLayout>
-
     )
 }
