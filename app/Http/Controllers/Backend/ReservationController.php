@@ -87,7 +87,8 @@ class ReservationController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $reservationOrder = Order::where('id', $id)->with(['orderDetails', 'product'])->get();
+        return Inertia::render('Reservation/Show', ['reservationOrders' => $reservationOrder]);
     }
 
     /**

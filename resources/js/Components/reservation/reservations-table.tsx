@@ -27,6 +27,7 @@ import {
 import { Input } from "@/Components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/Components/ui/table"
 import { StatusBadge } from "@/Components/reservation/status-badge"
+import { Link } from "@inertiajs/react"
 
 // Define the Reservation type
 export type Reservation = {
@@ -127,7 +128,7 @@ export default function ReservationsTable(props: ReservationTableDataProps) {
                                 Copy reservation ID
                             </DropdownMenuItem>
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem>View details</DropdownMenuItem>
+                            <DropdownMenuItem><Link href={route('reservation.show', reservation.id)}>View details</Link></DropdownMenuItem>
                             <DropdownMenuItem>Update status</DropdownMenuItem>
                             {reservation.status !== "canceled" && (
                                 <DropdownMenuItem className="text-destructive">Cancel reservation</DropdownMenuItem>
