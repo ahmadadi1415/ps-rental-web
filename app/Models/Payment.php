@@ -16,6 +16,10 @@ class Payment extends Model
         'payment_method',
         'payment_date',
         'amount_paid',
+        'snap_token',
+        'status',
+        'expired_at',
+        'paid_at'
     ];
 
     // Relationship: Payment belongs to an Order
@@ -23,4 +27,15 @@ class Payment extends Model
     {
         return $this->belongsTo(Order::class);
     }
+
+    protected $casts = [
+        'order_id' => 'string',
+        'payment_method' => 'string',
+        'payment_date' => 'datetime',
+        'amount_paid' => 'integer',
+        'snap_token' => 'string',
+        'status' => 'string',
+        'expired_at'=>'datetime',
+        'paid_at' => 'datetime,',
+    ];
 }

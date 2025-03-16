@@ -1,9 +1,6 @@
 "use client"
 
 import * as React from "react"
-import { addDays } from "date-fns"
-
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/Components/ui/tabs"
 import ReservationDetails, { ReservationDetailsProps, type ReservationStatus } from "@/Components/reservation/details/reservation-details"
 import { toast } from "sonner"
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout"
